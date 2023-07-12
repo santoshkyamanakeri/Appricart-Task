@@ -2,26 +2,16 @@ const express = require("express");
 const dbClient = require("./config/database");
 const config = require("./config/app");
 const cors = require("cors");
-
+const articlesController = require("./controllers/queryControl");
 const app = express();
 
 app.use(express.json());
 app.use(cors());
 
 let client;
+// let clientData;
 
-app.get("/news", (request, response) => {
-  console.log("connecting to news");
-
-  client.query("SELECT * FROM public.newslist", (error, results) => {
-    if (error) {
-      console.log("errro ocured");
-      throw error;
-    }
-    return response.status(200).json(results.rows);
-    // return response.send("News");
-  });
-});
+app.get("/news", articlesController);
 
 const port = config.appPort;
 
@@ -36,3 +26,8 @@ app.listen(port, () => {
     console.log(result);
   }); */
 })();
+
+// (async () => {
+//   clientData = await dbClient.getClient();
+//   console.log("Connected")
+// })();
